@@ -1,32 +1,24 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const db = require('../db');
+const { findByUsername, createUser } = require('../../models/userModel');
 const { jwtSecret } = require('../config/default');
 
 exports.register = async (req, res) => {
   const { username, password } = req.body;
-  // check existing
-  const { rows } = await db.query(
-    'SELECT 1 FROM users WHERE username = $1',
-    [username]
-  );
-  if (rows.length) return res.status(409).json({ message: 'Username taken' });
+  if (!username || !password)
+    return res.status(400).json({ message: 'Username & password required' });
+
+  if (await findByUsername(username))
+    return res.status(409).json({ message: 'Username taken' });
 
   const hash = await bcrypt.hash(password, 10);
-  const result = await db.query(
-    'INSERT INTO users (username, password_hash) VALUES ($1,$2) RETURNING id, username',
-    [username, hash]
-  );
-  res.status(201).json(result.rows[0]);
+  const user = await createUser(username, hash);
+  res.status(201).json(user);
 };
 
 exports.login = async (req, res) => {
   const { username, password } = req.body;
-  const { rows } = await db.query(
-    'SELECT * FROM users WHERE username = $1',
-    [username]
-  );
-  const user = rows[0];
+  const user = await findByUsername(username);
   if (!user || !(await bcrypt.compare(password, user.password_hash)))
     return res.status(401).json({ message: 'Invalid credentials' });
 
