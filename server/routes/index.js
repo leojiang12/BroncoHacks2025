@@ -6,4 +6,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+// Test error handling
+// router.get('/', (req, res) => {
+//   throw new Error('💥 test error');
+// });
+
+
 module.exports = router;

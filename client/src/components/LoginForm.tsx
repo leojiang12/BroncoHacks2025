@@ -3,13 +3,13 @@ import { AuthContext } from '../contexts/AuthContext';
 
 export default function LoginForm() {
   const auth = useContext(AuthContext)!;
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await auth.login(username, password);
+      await auth.login(email, password);
     } catch {
       alert('Invalid credentials');
     }
@@ -18,9 +18,9 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit}>
       <input
-        placeholder="Username"
-        value={username}
-        onChange={e => setUsername(e.target.value)}
+        placeholder="you@email.com"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
       />
       <input
         type="password"

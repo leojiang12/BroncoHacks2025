@@ -66,3 +66,19 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* client/src/index.css */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  background: #fafafa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans‑serif;
+}
+
+a {
+  color: #1890ff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
