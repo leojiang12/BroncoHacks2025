@@ -31,6 +31,10 @@ base ❯ pg_isready
 
 createdb myappdb
 
+### Create database using schema
+
+psql -d myappdb -f server/schema.sql  
+
 ### List database
 
 ~
@@ -47,6 +51,10 @@ base ❯ psql -l
 #            |          |          |         |       | leojiang=CTc/leojiang
 # (4 rows)
 
+### client/.env
 
+VITE_API_URL=http://localhost:5001/api
+
+### server/.env
 
 
