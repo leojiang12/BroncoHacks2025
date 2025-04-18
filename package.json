@@ -1,0 +1,14 @@
+{
+    "name": "BroncoHacks2025",
+    "private": true,
+    "scripts": {
+      "postinstall": "cd server && npm install && cd ../client && npm install",
+      "server": "cd server && npm run dev",
+      "client": "cd client && npm run dev",
+      "dev": "concurrently \"npm run server\" \"npm run client\""
+    },
+    "devDependencies": {
+      "concurrently": "^7.6.0"
+    }
+  }
+  
