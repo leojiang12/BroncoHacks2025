@@ -23,6 +23,7 @@
     "passport-google-oauth20": "^2.0.0",
     "pg": "^8.14.1",
     "pino-pretty": "^13.0.0",
+    "server": "file:",
     "zod": "^3.24.3"
   },
   "devDependencies": {

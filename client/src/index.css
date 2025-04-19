@@ -82,3 +82,40 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.home-buttons {
+  background-color: white;
+  color: #3b82f6; /* Tailwind's blue-500 */
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid #3b82f6;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.outer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.outer-container h1 {
+  font-size: 3rem; /* or 48px */
+  font-weight: bold;
+  margin-bottom: 1rem;
+}

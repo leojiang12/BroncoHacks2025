@@ -6,6 +6,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import api from '../services/api';
 import PageLayout from '../components/PageLayout';
 import TryOn from '../components/TryOn';
+import MeshViewer from '../components/MeshViewer';
 
 interface MeResponse {
   userId: number;
@@ -28,7 +29,7 @@ export default function Dashboard() {
       {/* === EXISTING STATS CARD === */}
       <Card
         bordered={false}
-        style={{ marginBottom: 24, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
+        style={{width: '500px', height: '400px', marginBottom: 24, boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
         extra={
           <Button icon={<LogoutOutlined />} danger onClick={logout}>
             Sign out
@@ -48,22 +49,24 @@ export default function Dashboard() {
           </Col>
           <Col xs={24} sm={12}>
             <Statistic
-              title="Sample Stat"
-              value={42}
-              suffix="tasks"
+              title="Number of Clothes Uploaded"
+              value={5}
+              suffix=" pieces"
             />
           </Col>
         </Row>
+
+          {/* === TRY‑ON CARD === */}
+        <Card
+          title="👗 Try On Your Clothes"
+          bordered={false}
+          style={{paddingTop: '40px' ,border: '2px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
+        >
+          <TryOn />
+        </Card>
       </Card>
 
-      {/* === TRY‑ON CARD === */}
-      <Card
-        title="👗 Try On Your Clothes"
-        bordered={false}
-        style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
-      >
-        <TryOn />
-      </Card>
+      <MeshViewer modelUrl="\boss-t_ethan_wrapped.obj"/>
 
     </PageLayout>
   );
