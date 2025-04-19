@@ -3,9 +3,22 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Spin, Alert, Typography } from 'antd';
 import { AuthContext } from '../contexts/AuthContext';
-import PageLayout from '../components/PageLayout';
 
 const { Paragraph } = Typography;
+
+interface PageLayoutProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+function PageLayout({ title, children }: PageLayoutProps) {
+  return (
+    <div className="page-layout">
+      <h1>{title}</h1>
+      {children}
+    </div>
+  );
+}
 
 export default function OAuth2RedirectHandler() {
   const [params]     = useSearchParams();

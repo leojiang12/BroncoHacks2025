@@ -88,4 +88,10 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ error: err.message });
 });
 
+// serve uploads statically
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// mount our try‑on routes
+app.use('/api/tryon', require('./routes/tryon'));
+
 module.exports = app;
