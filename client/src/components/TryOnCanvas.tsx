@@ -11,15 +11,38 @@ interface ResultData {
 
 export function TryOnResult({ sessionId }: { sessionId: string }) {
   const [data, setData] = useState<ResultData | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!sessionId) return;                  // 👈 guard against undefined
-    api.get(`/tryon/${sessionId}`)           // this hits /api/tryon/:id under the hood
-      .then(res => setData(res.data))
-      .catch(err => console.warn('Fetch error:', err));
+    if (!sessionId) return; // nothing to do
+
+    const interval = setInterval(() => {
+      api
+        .get<ResultData>(`/tryon/${sessionId}`, {
+          headers: {
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
+          },
+        })
+        .then(res => {
+          // only treat as “done” when we actually have a fitted mesh
+          if (res.status === 200 && res.data.fitted_mesh_path) {
+            setData(res.data);
+            clearInterval(interval);
+          }
+        })
+        .catch(err => {
+          console.warn('Fetch error:', err);
+          setError('Failed to load result. Please try again later.');
+          clearInterval(interval);
+        });
+    }, 2000);
+
+    return () => clearInterval(interval);
   }, [sessionId]);
 
-  if (!data) return <p>Loading result…</p>;
+  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  if (!data)  return <p>Loading result…</p>;
 
   const meshUrl = data.fitted_mesh_path.replace(/^uploads/, '/uploads');
 
@@ -40,7 +63,7 @@ export function TryOnResult({ sessionId }: { sessionId: string }) {
         <ul>
           {Object.entries(data.metrics).map(([k, v]) => (
             <li key={k}>
-              <strong>{k.replace(/_/g, ' ')}:</strong> {v.toFixed(2)} cm
+              <strong>{k.replace(/_/g, ' ')}:</strong> {v.toFixed(2)} cm
             </li>
           ))}
         </ul>

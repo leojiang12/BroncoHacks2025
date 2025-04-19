@@ -30,6 +30,7 @@ app.use(helmet());
 app.use(pinoLogger({
   transport: { target: 'pino-pretty', options: { colorize: true } }
 }));
+app.disable('etag');
 
 // ─── CORS ──────────────────────────────────────────────────────────────
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
@@ -74,6 +75,13 @@ app.get('/api/me', authGuard, async (req, res, next) => {
   }
 });
 
+// serve uploads statically
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// mount our try‑on routes
+app.use('/api/tryon', require('./routes/tryon'));
+
+
 // ─── OTHER ROUTES & STATIC ─────────────────────────────────────────────
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -87,11 +95,5 @@ app.use((err, req, res, next) => {
   req.log.error(err);
   res.status(err.status || 500).json({ error: err.message });
 });
-
-// serve uploads statically
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// mount our try‑on routes
-app.use('/api/tryon', require('./routes/tryon'));
 
 module.exports = app;
