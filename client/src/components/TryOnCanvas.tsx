@@ -12,7 +12,10 @@ export function TryOnResult({ sessionId }: { sessionId: string }) {
   const [data, setData] = useState<ResultData | null>(null);
 
   useEffect(() => {
-    api.get(`/tryon/${sessionId}`).then(res => setData(res.data));
+    if (!sessionId) return;  // guard against undefined
+    api.get(`/tryon/${sessionId}`)
+      .then(res => setData(res.data))
+      .catch(err => console.warn('Failed fetching TryOnResult:', err));
   }, [sessionId]);
 
   if (!data) return <p>Loading result…</p>;
