@@ -1,7 +1,7 @@
 import sys, os
 import subprocess
 import json
-import trimesh
+#import trimesh
 import numpy as np
 from shrinkwrap import shrinkwrap_mesh  # see next script
 
