@@ -1,9 +1,17 @@
-// client/src/services/api.ts
 import axios from 'axios';
 
+const rawBase = import.meta.env.VITE_API_URL || window.location.origin;
+// Remove any trailing '/api', then add '/api' exactly once:
+const normalizedBase = rawBase.replace(/\/api\/?$/, '') + '/api';
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL, // e.g. "http://localhost:5001/api"
+  baseURL: normalizedBase,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
 });
+
 
 // Attach token on every request if present
 api.interceptors.request.use((config) => {

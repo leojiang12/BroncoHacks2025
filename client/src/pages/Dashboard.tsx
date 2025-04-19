@@ -13,7 +13,7 @@ interface MeResponse {
 }
 
 export default function Dashboard() {
-  const { logout, user } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const [me, setMe] = useState<MeResponse | null>(null);
 
   useEffect(() => {

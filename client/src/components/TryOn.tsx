@@ -35,8 +35,17 @@ export default function TryOn() {
       const { data } = await api.post('/tryon/upload', form, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
-      setSessionId(String(data.sessionId));
-      setStatus('processing');
+    //   setSessionId(String(data.sessionId));
+    //   setStatus('processing');
+    // inside handleUpload(), after you get `data`:
+    console.log('upload response:', data);
+    if (data.sessionId) {
+        setSessionId(String(data.sessionId));
+        setStatus('processing');
+    } else {
+        console.error('No sessionId in response!', data);
+    }
+
       message.success('Video uploaded; processing started.');
     } catch (err) {
       console.error(err);

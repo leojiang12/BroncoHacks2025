@@ -1,3 +1,4 @@
+// client/src/components/TryOnCanvas.tsx
 import React, { Suspense, useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
@@ -12,13 +13,14 @@ export function TryOnResult({ sessionId }: { sessionId: string }) {
   const [data, setData] = useState<ResultData | null>(null);
 
   useEffect(() => {
-    if (!sessionId) return;  // guard against undefined
-    api.get(`/tryon/${sessionId}`)
+    if (!sessionId) return;                  // 👈 guard against undefined
+    api.get(`/tryon/${sessionId}`)           // this hits /api/tryon/:id under the hood
       .then(res => setData(res.data))
-      .catch(err => console.warn('Failed fetching TryOnResult:', err));
+      .catch(err => console.warn('Fetch error:', err));
   }, [sessionId]);
 
   if (!data) return <p>Loading result…</p>;
+
   const meshUrl = data.fitted_mesh_path.replace(/^uploads/, '/uploads');
 
   return (
